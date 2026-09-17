@@ -13,7 +13,7 @@ COPY src ./src
 RUN mvn package -DskipTests -B
 
 # --- STAGE 2: Production JRE Runtime ---
-FROM eclipse-temurin:17-jre-alpine AS runner
+FROM eclipse-temurin:25-jre-alpine AS runner
 WORKDIR /app
 
 # Non-root security user context
