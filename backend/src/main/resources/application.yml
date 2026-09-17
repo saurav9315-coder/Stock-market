@@ -1,0 +1,150 @@
+spring:
+  profiles:
+    active: dev
+  application:
+    name: stock-analysis-platform
+
+  # Jackson Configuration for standard, robust JSON format
+  jackson:
+    date-format: yyyy-MM-dd'T'HH:mm:ss.SSS'Z'
+    time-zone: UTC
+    serialization:
+      write-dates-as-timestamps: false
+      write-durations-as-timestamps: false
+
+  # Flyway configuration
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    locations: classpath:db/migration
+
+  # Mail Configuration
+  mail:
+    host: ${SPRING_MAIL_HOST:${app.mail.host:smtp.gmail.com}}
+    port: ${SPRING_MAIL_PORT:${app.mail.port:587}}
+    username: ${SPRING_MAIL_USERNAME:${app.mail.username:}}
+    password: ${SPRING_MAIL_PASSWORD:${app.mail.password:}}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+  # Redis Configuration
+  cache:
+    type: redis
+    cache-names: company_profiles,historical_data,news,market_overview,news_summaries,ai_learning_cache
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      password: ${REDIS_PASSWORD:}
+      timeout: 5000ms
+      lettuce:
+        pool:
+          max-active: 8
+          max-idle: 8
+          min-idle: 0
+          max-wait: 1000ms
+
+# Server Port
+server:
+  port: 8080
+  servlet:
+    context-path: /api/v1
+
+# Actuator Endpoints Exposure
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: when_authorized
+      probes:
+        enabled: true
+  info:
+    env:
+      enabled: true
+
+# Custom Application Settings (JWT, Mail, APIs)
+app:
+  jwt:
+    secret: ${JWT_SECRET:d291bGQgc3RvY2sgYW5hbHlzaXMgcGxhdGZvcm0gZW50ZXJwcmlzZSBzZWNyZXQga2V5IDEyMzQ1Njc4OTA=} # base64 encoded minimum 256 bits secret
+    access-token-expiration-ms: 900000        # 15 minutes (15 * 60 * 1000)
+    refresh-token-expiration-ms: 604800000      # 7 days (7 * 24 * 60 * 60 * 1000)
+  mail:
+    host: ${EMAIL_HOST:smtp.gmail.com}
+    port: ${EMAIL_PORT:587}
+    username: ${EMAIL_USERNAME:}
+    password: ${EMAIL_PASSWORD:}
+  ai:
+    api-key: ${AI_API_KEY:}
+    openai:
+      api-key: ${OPENAI_API_KEY:${AI_API_KEY:}}
+      model: ${OPENAI_MODEL:gpt-4o-mini}
+    gemini:
+      api-key: ${GEMINI_API_KEY:}
+      model: ${GEMINI_MODEL:gemini-1.5-flash}
+  stock-api:
+    finnhub:
+      api-key: ${FINNHUB_API_KEY:}
+      base-url: https://finnhub.io/api/v1
+    twelve-data:
+      api-key: ${TWELVEDATA_API_KEY:}
+      base-url: https://api.twelvedata.com
+    alpha-vantage:
+      api-key: ${ALPHAVANTAGE_API_KEY:}
+      base-url: https://www.alphavantage.co
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      finnhubService:
+        slidingWindowSize: 10
+        failureRateThreshold: 50
+        waitDurationInOpenState: 10s
+        permittedNumberOfCallsInHalfOpenState: 3
+      twelveDataService:
+        slidingWindowSize: 10
+        failureRateThreshold: 50
+        waitDurationInOpenState: 10s
+        permittedNumberOfCallsInHalfOpenState: 3
+      alphaVantageService:
+        slidingWindowSize: 10
+        failureRateThreshold: 50
+        waitDurationInOpenState: 10s
+        permittedNumberOfCallsInHalfOpenState: 3
+  retry:
+    instances:
+      finnhubService:
+        maxAttempts: 3
+        waitDuration: 1s
+        enableExponentialBackoff: true
+        exponentialBackoffMultiplier: 2
+      twelveDataService:
+        maxAttempts: 3
+        waitDuration: 1s
+        enableExponentialBackoff: true
+        exponentialBackoffMultiplier: 2
+      alphaVantageService:
+        maxAttempts: 3
+        waitDuration: 1s
+        enableExponentialBackoff: true
+        exponentialBackoffMultiplier: 2
+  ratelimiter:
+    instances:
+      finnhubService:
+        limitForPeriod: 60
+        limitRefreshPeriod: 1m
+        timeoutDuration: 0s
+      twelveDataService:
+        limitForPeriod: 8
+        limitRefreshPeriod: 1m
+        timeoutDuration: 0s
+      alphaVantageService:
+        limitForPeriod: 5
+        limitRefreshPeriod: 1m
+        timeoutDuration: 0s

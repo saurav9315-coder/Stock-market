@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Welcome to Stock Analysis Platform</title>
+    <style>
+        body { font-family: sans-serif; background-color: #0d1117; color: #c9d1d9; padding: 20px; }
+        .card { background: #161b22; padding: 30px; border-radius: 8px; max-width: 600px; margin: 0 auto; border: 1px solid #30363d; }
+        .btn { display: inline-block; padding: 12px 20px; background: #238636; color: white; text-decoration: none; border-radius: 6px; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h2 style="color: #58a6ff;">Welcome to Stock Market Analysis Platform!</h2>
+        <p>Hello <strong th:text="${username}">Trader</strong>,</p>
+        <p>Thank you for joining our enterprise stock market intelligence & trading platform. Your account is now ready.</p>
+        <p th:text="${message}">Get started by managing your portfolio and analyzing live market insights.</p>
+        <p><a th:href="${referenceUrl != null ? referenceUrl : '#'}" class="btn">Explore Platform</a></p>
+    </div>
+</body>
+</html>

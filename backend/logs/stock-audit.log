@@ -1,0 +1,4 @@
+2026-07-31 20:07:04.129 [AUDIT] [reqId=eb3dbd7c-5e61-4bba-8a24-7ca667f62913] EMAIL_VERIFICATION_SUCCESS: User 'verify_me' activated their account.
+2026-07-31 20:07:04.867 [AUDIT] [reqId=4ff63bf7-8ec3-451f-b4cc-b5e11c8abfec] LOGIN_SUCCESS: User 'verify_me' successfully logged in.
+2026-07-31 20:07:05.416 [AUDIT] [reqId=bfd1585b-ecb2-4fcd-8940-14ab35d2f128] LOGIN_FAILED: Verified access block for user 'unverified'
+2026-07-31 20:07:05.639 [AUDIT] [reqId=a2d4337f-cb0d-4367-bc16-64540fa0458e] REGISTRATION_SUCCESS: User 'stocktrader' successfully registered. Email: trader@company.com

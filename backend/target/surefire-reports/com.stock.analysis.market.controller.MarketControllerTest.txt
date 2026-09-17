@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.stock.analysis.market.controller.MarketControllerTest
+-------------------------------------------------------------------------------
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 15.71 s -- in com.stock.analysis.market.controller.MarketControllerTest

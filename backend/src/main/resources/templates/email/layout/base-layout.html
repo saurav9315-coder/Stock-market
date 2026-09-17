@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title th:text="${title}">Stock Analysis Platform</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #0d1117; color: #c9d1d9; margin: 0; padding: 0; }
+        .container { max-width: 600px; margin: 30px auto; background-color: #161b22; border-radius: 8px; border: 1px solid #30363d; overflow: hidden; }
+        .header { background-color: #1f6feb; padding: 20px; text-align: center; color: #ffffff; }
+        .header h1 { margin: 0; font-size: 22px; }
+        .content { padding: 30px; font-size: 15px; line-height: 1.6; }
+        .footer { background-color: #0d1117; padding: 15px; text-align: center; font-size: 12px; color: #8b949e; border-top: 1px solid #30363d; }
+        .button { display: inline-block; padding: 12px 24px; background-color: #238636; color: #ffffff; text-decoration: none; border-radius: 6px; font-weight: bold; margin-top: 15px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Stock Market Analysis Platform</h1>
+        </div>
+        <div class="content" th:replace="${contentFragment}">
+            <!-- Default Content Placeholder -->
+            <p th:text="${message}">Notification Message Placeholder</p>
+        </div>
+        <div class="footer">
+            <p>&copy; 2026 Stock Market Analysis Platform. All rights reserved.</p>
+            <p>If you did not request this email, please contact support immediately.</p>
+        </div>
+    </div>
+</body>
+</html>

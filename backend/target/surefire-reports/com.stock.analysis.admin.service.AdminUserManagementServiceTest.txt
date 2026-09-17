@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.stock.analysis.admin.service.AdminUserManagementServiceTest
+-------------------------------------------------------------------------------
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.835 s -- in com.stock.analysis.admin.service.AdminUserManagementServiceTest

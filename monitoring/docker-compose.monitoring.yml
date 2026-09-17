@@ -1,0 +1,68 @@
+version: '3.8'
+
+services:
+  # --- PROMETHEUS METRICS SERVER ---
+  prometheus:
+    image: prom/prometheus:v2.51.0
+    container_name: stock-prometheus
+    restart: unless-stopped
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus-data:/prometheus
+    ports:
+      - "9090:9090"
+    networks:
+      - stock-network
+
+  # --- GRAFANA DASHBOARDS ---
+  grafana:
+    image: grafana/grafana:10.4.0
+    container_name: stock-grafana
+    restart: unless-stopped
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=SuperSecureGrafanaPass2026!
+    volumes:
+      - grafana-data:/var/lib/grafana
+    ports:
+      - "3001:3000"
+    networks:
+      - stock-network
+
+  # --- HOST NODE EXPORTER ---
+  node-exporter:
+    image: prom/node-exporter:v1.7.0
+    container_name: stock-node-exporter
+    restart: unless-stopped
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.sysfs=/host/sys'
+      - '--path.rootfs=/rootfs'
+    networks:
+      - stock-network
+
+  # --- DOCKER CADVISOR ---
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:v0.49.1
+    container_name: stock-cadvisor
+    restart: unless-stopped
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:ro
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+    networks:
+      - stock-network
+
+networks:
+  stock-network:
+    external: true
+    name: stock-network
+
+volumes:
+  prometheus-data:
+  grafana-data:

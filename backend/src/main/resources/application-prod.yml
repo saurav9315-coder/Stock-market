@@ -1,0 +1,36 @@
+spring:
+  # Database Configuration for Production
+  datasource:
+    url: ${DB_URL} # Mandatory to be set via env variables in prod
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      pool-name: ProdHikariCP
+      maximum-pool-size: 50
+      minimum-idle: 10
+      idle-timeout: 30000
+      max-lifetime: 1800000
+      connection-timeout: 5000
+      validation-timeout: 3000
+      leak-detection-threshold: 2000
+
+  # JPA & Hibernate Settings for Prod
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: validate # Database schema strictly managed by Flyway in prod
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: false
+        generate_statistics: false
+        jdbc:
+          batch_size: 50
+
+logging:
+  level:
+    root: INFO
+    com.stock.analysis: INFO
+    org.springframework.security: WARN
+    org.hibernate: WARN
