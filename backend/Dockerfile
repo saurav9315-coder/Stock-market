@@ -3,7 +3,7 @@
 # ==========================================
 
 # --- STAGE 1: Maven Builder ---
-FROM maven:3.9.6-eclipse-temurin-17-alpine AS builder
+FROM maven:3-eclipse-temurin-24-alpine AS builder
 WORKDIR /build
 
 COPY pom.xml .
